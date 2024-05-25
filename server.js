@@ -132,10 +132,10 @@ app.post("/skaters", async (req, res) => {
 
     foto.mv(`${__dirname}/public${pathPhoto}`, async (err) => {
         try {
-            if (err) throw err;
-            foto = pathPhoto
-            const query = await querys.registrar(email, nombre, password, anos_experiencia, especialidad, foto);
-            res.status(201).redirect("/");
+                if (err) throw err;
+                foto = pathPhoto
+                const query = await querys.registrar(email, nombre, password, anos_experiencia, especialidad, foto);
+                res.status(201).redirect("/");
         } catch (e) {
             res.status(500).send({
                 error:`Algo salio mal... ${e}`,

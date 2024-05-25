@@ -21,13 +21,13 @@ async function login(email, password){
     return rows[0];
 }
 
-async function consultaSkater(email) {
+async function consultaSkater(id) {
     const queryJson = {
-        text: `SELECT id FROM skaters WHERE email = $1`,
-        values: [email]
+        text: `SELECT * FROM skaters WHERE id = $1`,
+        values: [id]
     }
 
-    const { rows } = await pool(queryJson);
+    const { rows } = await pool.query(queryJson);
 
     return rows;
 }
@@ -43,10 +43,10 @@ async function registrar(email, nombre, password, anos_experiencia, especialidad
     return results;
 }
 
-async function editar(email, nombre, password, anos_experiencia, especialidad) {
+async function editar(id, nombre, anos_experiencia, especialidad) {
     const queryJson = {
-        text: `UPDATE skaters SET nombre = $1, password = $2, anos_experiencia = $3, especialidad = $4 WHERE email = $5 RETURNING *`,
-        values: [nombre, password, anos_experiencia, especialidad, email]
+        text: `UPDATE skaters SET nombre = $2, anos_experiencia = $3, especialidad = $4 WHERE id = $1 RETURNING *`,
+        values: [id, nombre, anos_experiencia, especialidad]
     };
 
     const { rows } = await pool.query(queryJson);
@@ -54,10 +54,10 @@ async function editar(email, nombre, password, anos_experiencia, especialidad) {
     return rows;
 }
 
-async function eliminar(email) {
+async function eliminar(id) {
     const queryJson = {
-        text: `DELETE FROM skaters WHERE email = $1 RETURNING *`,
-        values: [email]
+        text: `DELETE FROM skaters WHERE id = $1 RETURNING *`,
+        values: [id]
     };
 
     const { rows } = await pool.query(queryJson);
